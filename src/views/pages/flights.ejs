@@ -39,8 +39,10 @@
           <th>Arrival</th>
           <th>Seats</th>
           <th>Price</th>
+          <th>Action</th>
         </tr>
       </thead>
+
       <tbody>
         <% flights.forEach(f => { %>
           <tr>
@@ -49,6 +51,20 @@
             <td><%= f.arrival_time %></td>
             <td><%= f.available_seats %>/<%= f.total_seats %></td>
             <td><%= f.price %></td>
+
+            <td>
+              <% if (user) { %>
+                <% if (f.available_seats > 0) { %>
+                  <form method="POST" action="/flights/<%= f.id %>/book">
+                    <button type="submit">Book</button>
+                  </form>
+                <% } else { %>
+                  <small>Sold out</small>
+                <% } %>
+              <% } else { %>
+                <a href="/login">Login to book</a>
+              <% } %>
+            </td>
           </tr>
         <% }) %>
       </tbody>
