@@ -3,7 +3,12 @@ import { createFlight, listFlights } from "../models/flight.model.js";
 export function showFlights(req, res) {
   const { origin = "", destination = "", date = "" } = req.query;
 
-  const flights = listFlights({ origin, destination, date });
+  const flights = listFlights({
+    origin,
+    destination,
+    date,
+    futureOnly: true, // optional requirement: enable it
+  });
 
   res.render("pages/flights", {
     title: "Flights",
@@ -11,6 +16,7 @@ export function showFlights(req, res) {
     filters: { origin, destination, date },
   });
 }
+
 
 export function showNewFlightForm(req, res) {
   res.render("pages/admin/new-flight", {

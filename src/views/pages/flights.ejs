@@ -21,6 +21,8 @@
   <button type="submit">Search</button>
 </form>
 
+<p><small>Showing upcoming flights sorted by departure time.</small></p>
+
 <% if (user && user.role === "admin") { %>
   <p><a href="/admin/flights/new">+ Create Flight (Admin)</a></p>
 <% } %>

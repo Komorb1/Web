@@ -1,4 +1,4 @@
-import { run, all, get } from "../config/db.js";
+import { all, get, run } from "../config/db.js";
 
 export function createFlight(flight) {
   const {
@@ -17,7 +17,7 @@ export function createFlight(flight) {
   );
 }
 
-export function listFlights({ origin, destination, date } = {}) {
+export function listFlights({ origin, destination, date, futureOnly = false } = {}) {
   let sql = `SELECT * FROM flights WHERE 1=1`;
   const params = [];
 
@@ -25,14 +25,23 @@ export function listFlights({ origin, destination, date } = {}) {
     sql += ` AND lower(origin) LIKE ?`;
     params.push(`%${origin.toLowerCase()}%`);
   }
+
   if (destination) {
     sql += ` AND lower(destination) LIKE ?`;
     params.push(`%${destination.toLowerCase()}%`);
   }
+
   if (date) {
-    // matches YYYY-MM-DD at start of departure_time
+    // departure_time stored like "YYYY-MM-DDTHH:mm" from datetime-local
     sql += ` AND substr(departure_time, 1, 10) = ?`;
     params.push(date);
+  }
+
+  if (futureOnly) {
+    // Compare as ISO-like strings. Works if stored as "YYYY-MM-DDTHH:mm"
+    const now = new Date().toISOString().slice(0, 16); // "YYYY-MM-DDTHH:mm"
+    sql += ` AND departure_time > ?`;
+    params.push(now);
   }
 
   sql += ` ORDER BY departure_time ASC`;
