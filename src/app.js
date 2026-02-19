@@ -4,6 +4,8 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import { initDb } from "./config/initDb.js";
 import authRoutes from "./routes/auth.routes.js";
+import session from "express-session";
+import dashboardRoutes from "./routes/dashboard.routes.js";
 
 import indexRoutes from "./routes/index.routes.js";
 
@@ -24,6 +26,13 @@ app.set("views", path.join(__dirname, "views"));
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "dev_secret_change_me",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 // Static
 app.use(express.static(path.join(__dirname, "..", "public")));
@@ -31,6 +40,7 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 // Routes
 app.use("/", indexRoutes);
 app.use("/", authRoutes);
+app.use("/", dashboardRoutes);
 
 // 404
 app.use((req, res) => {

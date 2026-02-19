@@ -1,13 +1,12 @@
 import { Router } from "express";
-import { showRegister, registerUser, showLogin } from "../controllers/auth.controller.js";
+import { showRegister, registerUser, showLogin, loginUser } from "../controllers/auth.controller.js";
 
 const router = Router();
 
-// Register
 router.get("/register", showRegister);
 router.post("/register", registerUser);
 
-// Login (placeholder for now so redirect works)
 router.get("/login", showLogin);
+router.post("/login", loginUser);
 
 export default router;

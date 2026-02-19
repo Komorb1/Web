@@ -1,6 +1,31 @@
 <%- include("../partials/header", { title }) %>
 
 <h1>Login</h1>
-<p>Login is next task. This page exists so registration can redirect here.</p>
+
+<% if (errors && errors.length) { %>
+  <div class="error-box">
+    <ul>
+      <% errors.forEach(e => { %>
+        <li><%= e %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<form method="POST" action="/login" class="form">
+  <label>
+    Email
+    <input type="email" name="email" value="<%= form.email %>" required />
+  </label>
+
+  <label>
+    Password
+    <input type="password" name="password" required />
+  </label>
+
+  <button type="submit">Login</button>
+</form>
+
+<p>No account? <a href="/register">Register</a></p>
 
 <%- include("../partials/footer") %>
