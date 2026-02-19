@@ -54,6 +54,12 @@ export function loginUser(req, res) {
   return res.redirect("/dashboard");
 }
 
+export function logoutUser(req, res) {
+  req.session.destroy(() => {
+    res.redirect("/login");
+  });
+}
+
 export function registerUser(req, res) {
   const { full_name, email, password } = req.body;
 

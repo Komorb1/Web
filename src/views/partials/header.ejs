@@ -12,7 +12,16 @@
     <nav class="links">
       <a href="/">Home</a>
       <a href="/flights">Flights</a>
-      <a href="/login">Login</a>
+
+      <% if (user) { %>
+        <a href="/dashboard">Dashboard</a>
+        <form method="POST" action="/logout" style="display:inline;">
+          <button type="submit" class="link-btn">Logout</button>
+        </form>
+      <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      <% } %>
     </nav>
   </header>
   <main class="container">
