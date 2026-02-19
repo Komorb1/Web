@@ -1,0 +1,38 @@
+<%- include("../partials/header", { title }) %>
+
+<h1>My Bookings</h1>
+
+<% if (!bookings.length) { %>
+  <p>You have no bookings yet.</p>
+  <p><a href="/flights">Browse flights</a></p>
+<% } else { %>
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Flight</th>
+          <th>Departure</th>
+          <th>Arrival</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Booked At</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% bookings.forEach(b => { %>
+          <tr>
+            <td><%= b.origin %> → <%= b.destination %></td>
+            <td><%= b.departure_time %></td>
+            <td><%= b.arrival_time %></td>
+            <td><%= b.price %></td>
+            <td><%= b.status %></td>
+            <td><%= b.booking_created_at %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<%- include("../partials/footer") %>

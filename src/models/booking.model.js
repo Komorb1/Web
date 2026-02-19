@@ -35,3 +35,26 @@ export function bookFlight({ user_id, flight_id }) {
 
   return tx();
 }
+
+export function listBookingsByUser(user_id) {
+  return db
+    .prepare(
+      `
+      SELECT
+        b.id AS booking_id,
+        b.status,
+        b.created_at AS booking_created_at,
+        f.id AS flight_id,
+        f.origin,
+        f.destination,
+        f.departure_time,
+        f.arrival_time,
+        f.price
+      FROM bookings b
+      JOIN flights f ON f.id = b.flight_id
+      WHERE b.user_id = ?
+      ORDER BY b.created_at DESC
+      `
+    )
+    .all(user_id);
+}

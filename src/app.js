@@ -8,6 +8,7 @@ import session from "express-session";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import flightRoutes from "./routes/flight.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";
+import myBookingsRoutes from "./routes/mybookings.routes.js";
 
 import indexRoutes from "./routes/index.routes.js";
 
@@ -50,6 +51,7 @@ app.use("/", authRoutes);
 app.use("/", dashboardRoutes);
 app.use("/", flightRoutes);
 app.use("/", bookingRoutes);
+app.use("/", myBookingsRoutes);
 
 // 404
 app.use((req, res) => {
