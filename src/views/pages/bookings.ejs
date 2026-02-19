@@ -16,6 +16,7 @@
           <th>Price</th>
           <th>Status</th>
           <th>Booked At</th>
+          <th>Action</th>
         </tr>
       </thead>
 
@@ -28,6 +29,16 @@
             <td><%= b.price %></td>
             <td><%= b.status %></td>
             <td><%= b.booking_created_at %></td>
+
+            <td>
+              <% if (b.status === "confirmed") { %>
+                <form method="POST" action="/bookings/<%= b.booking_id %>/cancel">
+                  <button type="submit">Cancel</button>
+                </form>
+              <% } else { %>
+                <small>-</small>
+              <% } %>
+            </td>
           </tr>
         <% }) %>
       </tbody>

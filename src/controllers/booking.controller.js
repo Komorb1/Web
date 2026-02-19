@@ -20,5 +20,9 @@ export function createBooking(req, res) {
     return res.status(500).send("Booking failed.");
   }
 
+  if (result.reason === "too_late") {
+    return res.status(409).send("You can't book a flight that has already departed.");
+  }
+
   return res.redirect("/bookings");
 }
