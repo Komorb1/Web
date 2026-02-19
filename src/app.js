@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import { initDb } from "./config/initDb.js";
 
 import indexRoutes from "./routes/index.routes.js";
 
@@ -11,6 +12,9 @@ const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Initialize database
+initDb();
 
 // View engine
 app.set("view engine", "ejs");
