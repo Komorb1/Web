@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import { initDb } from "./config/initDb.js";
+import authRoutes from "./routes/auth.routes.js";
 
 import indexRoutes from "./routes/index.routes.js";
 
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 
 // Routes
 app.use("/", indexRoutes);
+app.use("/", authRoutes);
 
 // 404
 app.use((req, res) => {
