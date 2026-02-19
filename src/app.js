@@ -6,6 +6,7 @@ import { initDb } from "./config/initDb.js";
 import authRoutes from "./routes/auth.routes.js";
 import session from "express-session";
 import dashboardRoutes from "./routes/dashboard.routes.js";
+import flightRoutes from "./routes/flight.routes.js";
 
 import indexRoutes from "./routes/index.routes.js";
 
@@ -46,6 +47,7 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 app.use("/", indexRoutes);
 app.use("/", authRoutes);
 app.use("/", dashboardRoutes);
+app.use("/", flightRoutes);
 
 // 404
 app.use((req, res) => {

@@ -1,0 +1,51 @@
+<%- include("../../partials/header", { title }) %>
+
+<h1>Create Flight (Admin)</h1>
+
+<% if (errors && errors.length) { %>
+  <div class="error-box">
+    <ul>
+      <% errors.forEach(e => { %>
+        <li><%= e %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<form method="POST" action="/admin/flights" class="form">
+  <label>
+    Origin
+    <input type="text" name="origin" value="<%= form.origin %>" required />
+  </label>
+
+  <label>
+    Destination
+    <input type="text" name="destination" value="<%= form.destination %>" required />
+  </label>
+
+  <label>
+    Departure Time
+    <input type="datetime-local" name="departure_time" value="<%= form.departure_time %>" required />
+  </label>
+
+  <label>
+    Arrival Time
+    <input type="datetime-local" name="arrival_time" value="<%= form.arrival_time %>" required />
+  </label>
+
+  <label>
+    Price
+    <input type="number" step="0.01" name="price" value="<%= form.price %>" required />
+  </label>
+
+  <label>
+    Total Seats
+    <input type="number" name="total_seats" value="<%= form.total_seats %>" required />
+  </label>
+
+  <button type="submit">Create Flight</button>
+</form>
+
+<p><a href="/flights">← Back to flights</a></p>
+
+<%- include("../../partials/footer") %>

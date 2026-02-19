@@ -1,0 +1,57 @@
+<%- include("../partials/header", { title }) %>
+
+<h1>Flights</h1>
+
+<form method="GET" action="/flights" class="form">
+  <label>
+    Origin
+    <input type="text" name="origin" value="<%= filters.origin %>"/>
+  </label>
+
+  <label>
+    Destination
+    <input type="text" name="destination" value="<%= filters.destination %>"/>
+  </label>
+
+  <label>
+    Departure Date
+    <input type="date" name="date" value="<%= filters.date %>"/>
+  </label>
+
+  <button type="submit">Search</button>
+</form>
+
+<% if (user && user.role === "admin") { %>
+  <p><a href="/admin/flights/new">+ Create Flight (Admin)</a></p>
+<% } %>
+
+<% if (!flights.length) { %>
+  <p>No flights found.</p>
+<% } else { %>
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Route</th>
+          <th>Departure</th>
+          <th>Arrival</th>
+          <th>Seats</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% flights.forEach(f => { %>
+          <tr>
+            <td><%= f.origin %> → <%= f.destination %></td>
+            <td><%= f.departure_time %></td>
+            <td><%= f.arrival_time %></td>
+            <td><%= f.available_seats %>/<%= f.total_seats %></td>
+            <td><%= f.price %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<%- include("../partials/footer") %>
