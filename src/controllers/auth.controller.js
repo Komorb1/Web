@@ -44,19 +44,53 @@ export function loginUser(req, res) {
     });
   }
 
-  // Save minimal info in session
-  req.session.user = {
-    id: user.id,
-    full_name: user.full_name,
-    role: user.role,
-  };
+  // Regenerate session on login (session fixation protection)
+  req.session.regenerate((err) => {
+    if (err) {
+      return res.status(500).render("pages/login", {
+        title: "Login",
+        errors: ["Something went wrong. Please try again."],
+        form: { email: cleanedEmail },
+      });
+    }
 
-  return res.redirect("/dashboard");
+    // Save minimal info in session
+    req.session.user = {
+      id: user.id,
+      full_name: user.full_name,
+      role: user.role,
+    };
+
+    req.session.save((err2) => {
+      if (err2) {
+        return res.status(500).render("pages/login", {
+          title: "Login",
+          errors: ["Something went wrong. Please try again."],
+          form: { email: cleanedEmail },
+        });
+      }
+
+      return res.redirect("/dashboard");
+    });
+  });
 }
 
 export function logoutUser(req, res) {
-  req.session.destroy(() => {
-    res.redirect("/login");
+  const cookieName = process.env.SESSION_COOKIE_NAME || "sid";
+
+  req.session.destroy((err) => {
+    // Even if destroy errors, clearing the cookie helps the browser forget it
+    res.clearCookie(cookieName);
+
+    if (err) {
+      return res.status(500).render("pages/login", {
+        title: "Login",
+        errors: ["Could not log out. Please try again."],
+        form: { email: "" },
+      });
+    }
+
+    return res.redirect("/login");
   });
 }
 

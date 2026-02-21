@@ -9,12 +9,17 @@ import dashboardRoutes from "./routes/dashboard.routes.js";
 import flightRoutes from "./routes/flight.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";
 import myBookingsRoutes from "./routes/mybookings.routes.js";
+import { sessionMiddleware } from "./config/session.js";
 
 import indexRoutes from "./routes/index.routes.js";
 
 dotenv.config();
 
 const app = express();
+
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +34,7 @@ app.set("views", path.join(__dirname, "views"));
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(sessionMiddleware);
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "dev_secret_change_me",
