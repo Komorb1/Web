@@ -11,6 +11,7 @@ import bookingRoutes from "./routes/booking.routes.js";
 import myBookingsRoutes from "./routes/mybookings.routes.js";
 import { sessionMiddleware } from "./config/session.js";
 import csrf from "csurf";
+import helmet from "helmet";
 
 import indexRoutes from "./routes/index.routes.js";
 
@@ -83,6 +84,45 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
   res.status(404).render("pages/404", { title: "Not Found" });
 });
+
+// Security headers with Helmet
+app.use(
+  helmet({
+    // Keep CSP on, but set it explicitly so you control breakage risk
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        // defaults + your additions
+        "default-src": ["'self'"],
+        "base-uri": ["'self'"],
+        "form-action": ["'self'"],
+        "frame-ancestors": ["'none'"],
+
+        // If your CSS/JS is served locally, this is enough
+        "script-src": ["'self'"],
+        "style-src": ["'self'", "'unsafe-inline'"],
+
+        // allow images from your site + data: (for icons/inline images if you ever use them)
+        "img-src": ["'self'", "data:"],
+
+        // fonts usually come from self; if using Google Fonts later you must add it here
+        "font-src": ["'self'"],
+
+        // If you don’t use XHR to other origins, keep it strict
+        "connect-src": ["'self'"],
+
+        // If you don’t embed objects, block them
+        "object-src": ["'none'"],
+
+        // If you don’t use workers, keep locked down
+        "worker-src": ["'self'"],
+      },
+    },
+
+    // This is fine for most apps; can be adjusted later if you embed cross-origin resources
+    crossOriginEmbedderPolicy: false,
+  })
+);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
