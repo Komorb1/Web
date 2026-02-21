@@ -126,6 +126,40 @@ app.use(
   })
 );
 
+// 404 - no route matched
+app.use((req, res) => {
+  return res.status(404).render("pages/404", { title: "Not Found" });
+});
+
+// Error handlers (must have 4 args)
+app.use((err, req, res, next) => {
+  // CSRF failures
+  if (err && err.code === "EBADCSRFTOKEN") {
+    return res.status(403).render("pages/403", {
+      title: "Forbidden",
+      message: "Invalid or expired form token. Please try again.",
+    });
+  }
+
+  return next(err);
+});
+
+app.use((err, req, res, next) => {
+  const isProd = process.env.NODE_ENV === "production";
+
+  // Log full error server-side (ok in prod too)
+  console.error(err);
+
+  return res.status(500).render("pages/500", {
+    title: "Server Error",
+    message: isProd
+      ? "Something went wrong. Please try again."
+      : (err?.message || "Something went wrong."),
+    // In production we do not leak stack traces
+    details: isProd ? null : (err?.stack || null),
+  });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

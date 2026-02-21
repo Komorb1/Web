@@ -1,3 +1,7 @@
+<%- include("../partials/header", { title }) %>
+
 <h1>403 - Forbidden</h1>
-<p><%= message %></p>
-<a href="/">Return Home</a>
+<p><%= message || "You don’t have permission to access this page." %></p>
+<p><a href="/">Go home</a></p>
+
+<%- include("../partials/footer") %>

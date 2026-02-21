@@ -1,0 +1,12 @@
+<%- include("../partials/header", { title }) %>
+
+<h1>500 - Server Error</h1>
+<p><%= message || "Something went wrong on our side. Please try again." %></p>
+
+<% if (details) { %>
+  <pre style="white-space: pre-wrap;"><%= details %></pre>
+<% } %>
+
+<p><a href="/">Go home</a></p>
+
+<%- include("../partials/footer") %>
