@@ -25,4 +25,21 @@
       <% } %>
     </nav>
   </header>
+
+  <% if (flash && (flash.success || flash.error || flash.info)) { %>
+    <div class="flash-wrap" aria-live="polite" aria-atomic="true">
+      <% (flash.success || []).forEach(m => { %>
+        <div class="flash flash-success"><%= m %></div>
+      <% }) %>
+
+      <% (flash.error || []).forEach(m => { %>
+        <div class="flash flash-error"><%= m %></div>
+      <% }) %>
+
+      <% (flash.info || []).forEach(m => { %>
+        <div class="flash flash-info"><%= m %></div>
+      <% }) %>
+    </div>
+  <% } %>
+
   <main class="container">

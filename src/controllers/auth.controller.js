@@ -61,22 +61,9 @@ export function loginUser(req, res) {
 }
 
 export function logoutUser(req, res) {
-  const cookieName = process.env.SESSION_COOKIE_NAME || "sid";
-
-  req.session.destroy((err) => {
-    // Even if destroy errors, clearing the cookie helps the browser forget it
-    res.clearCookie(cookieName);
-
-    if (err) {
-      return res.status(500).render("pages/login", {
-        title: "Login",
-        errors: ["Could not log out. Please try again."],
-        form: { email: "" },
-      });
-    }
-
-    return res.redirect("/login");
-  });
+  req.session.user = null;
+  req.flash("info", "You have been logged out.");
+  return res.redirect("/login");
 }
 
 export function registerUser(req, res) {
@@ -95,6 +82,7 @@ export function registerUser(req, res) {
 
   try {
     createUser({ full_name, email, password_hash });
+    req.flash("success", "Account created. Please log in.");
     return res.redirect("/login");
   } catch (err) {
     return res.status(500).render("pages/register", {

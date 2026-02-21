@@ -12,6 +12,7 @@ import myBookingsRoutes from "./routes/mybookings.routes.js";
 import { sessionMiddleware } from "./config/session.js";
 import csrf from "csurf";
 import helmet from "helmet";
+import { flashMiddleware } from "./middleware/flash.middleware.js";
 
 import indexRoutes from "./routes/index.routes.js";
 
@@ -37,6 +38,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(sessionMiddleware);
+app.use(flashMiddleware);
 
 const csrfProtection = csrf();
 app.use(csrfProtection);

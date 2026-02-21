@@ -8,35 +8,20 @@ export function cancelMyBooking(req, res) {
 
   if (!result.ok) {
     if (result.reason === "not_found") {
-      return res.status(404).render("pages/404", { title: "Not Found" });
+      req.flash("error", "Booking not found.");
+    } else if (result.reason === "forbidden") {
+      req.flash("error", "You are not allowed to cancel this booking.");
+    } else if (result.reason === "already_cancelled" || result.reason === "not_confirmed") {
+      req.flash("info", "This booking is already cancelled (or not confirmed).");
+    } else if (result.reason === "too_late") {
+      req.flash("error", "Too late to cancel this booking.");
+    } else {
+      req.flash("error", "Cancellation failed. Please try again.");
     }
 
-    if (result.reason === "forbidden") {
-      return res.status(403).render("pages/403", {
-        title: "Forbidden",
-        message: "You are not allowed to cancel this booking.",
-      });
-    }
-
-    if (result.reason === "already_cancelled") {
-      return res.status(409).render("pages/400", {
-        title: "Booking Conflict",
-        message: "This booking is already cancelled (or not confirmed).",
-      });
-    }
-
-    if (result.reason === "too_late") {
-      return res.status(409).render("pages/400", {
-        title: "Booking Conflict",
-        message: "Too late to cancel this booking.",
-      });
-    }
-
-    return res.status(500).render("pages/400", {
-      title: "Error",
-      message: "Cancellation failed. Please try again.",
-    });
+    return res.redirect("/bookings");
   }
 
+  req.flash("success", "Booking cancelled.");
   return res.redirect("/bookings");
 }
