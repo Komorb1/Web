@@ -33,6 +33,7 @@
             <td>
               <% if (b.status === "confirmed") { %>
                 <form method="POST" action="/bookings/<%= b.booking_id %>/cancel">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <button type="submit">Cancel</button>
                 </form>
               <% } else { %>

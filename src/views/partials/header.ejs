@@ -16,6 +16,7 @@
       <% if (user) { %>
         <a href="/dashboard">Dashboard</a>
         <form method="POST" action="/logout" style="display:inline;">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <button type="submit" class="link-btn">Logout</button>
         </form>
       <% } else { %>

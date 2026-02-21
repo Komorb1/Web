@@ -10,6 +10,7 @@ import flightRoutes from "./routes/flight.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";
 import myBookingsRoutes from "./routes/mybookings.routes.js";
 import { sessionMiddleware } from "./config/session.js";
+import csrf from "csurf";
 
 import indexRoutes from "./routes/index.routes.js";
 
@@ -35,6 +36,14 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(sessionMiddleware);
+
+const csrfProtection = csrf();
+app.use(csrfProtection);
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "dev_secret_change_me",
@@ -58,6 +67,17 @@ app.use("/", dashboardRoutes);
 app.use("/", flightRoutes);
 app.use("/", bookingRoutes);
 app.use("/", myBookingsRoutes);
+
+// - Detect CSRF error
+app.use((err, req, res, next) => {
+  if (err.code === "EBADCSRFTOKEN") {
+    return res.status(403).render("pages/403", {
+      title: "Forbidden",
+      message: "Invalid or expired form token. Please try again.",
+    });
+  }
+  next(err);
+});
 
 // 404
 app.use((req, res) => {

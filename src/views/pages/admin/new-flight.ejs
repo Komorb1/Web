@@ -13,6 +13,8 @@
 <% } %>
 
 <form method="POST" action="/admin/flights" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
   <label>
     Origin
     <input type="text" name="origin" value="<%= form.origin %>" required />
