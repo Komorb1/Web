@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { nowLocalIso16 } from "../utils/time.js";
 
 export const loginSchema = z.object({
   email: z.string().trim().toLowerCase().email("Please enter a valid email."),
@@ -20,9 +21,24 @@ export const createFlightSchema = z
     price: z.coerce.number().positive("Price must be greater than 0."),
     total_seats: z.coerce.number().int().positive("Total seats must be a positive integer."),
   })
-  .refine((v) => v.arrival_time > v.departure_time, {
-    message: "Arrival time must be after departure time.",
-    path: ["arrival_time"],
+  .superRefine((v, ctx) => {
+    const now = nowLocalIso16();
+
+    if (v.departure_time <= now) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["departure_time"],
+        message: "Departure time must be in the future.",
+      });
+    }
+
+    if (v.arrival_time <= v.departure_time) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["arrival_time"],
+        message: "Arrival time must be after departure time.",
+      });
+    }
   });
 
 // IDs: adjust if your DB uses UUIDs instead of ints
