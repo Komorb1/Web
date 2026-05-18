@@ -1,4 +1,5 @@
 import { bookFlight } from "../models/booking.model.js";
+import { createAuditLog } from "../models/auditLog.model.js";
 
 export function createBooking(req, res) {
   const flight_id = req.validated?.params?.id ?? Number(req.params.id);
@@ -14,6 +15,15 @@ export function createBooking(req, res) {
 
     return res.redirect("/flights");
   }
+
+  createAuditLog({
+    user_id,
+    action: "booking_created",
+    metadata: {
+      flight_id,
+      booking_id: result.booking_id,
+    },
+  });
 
   req.flash("success", "Booking confirmed ✅");
   return res.redirect("/bookings");

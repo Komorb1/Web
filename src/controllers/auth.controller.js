@@ -30,6 +30,9 @@ export function loginUser(req, res) {
     });
   }
 
+  const redirectTo = req.session.returnTo || "/dashboard";
+  return res.redirect(redirectTo);
+
   // Regenerate session on login (session fixation protection)
   req.session.regenerate((err) => {
     if (err) {
@@ -61,6 +64,7 @@ export function loginUser(req, res) {
 }
 
 export function logoutUser(req, res) {
+  delete req.session.returnTo;
   req.session.user = null;
   req.flash("info", "You have been logged out.");
   return res.redirect("/login");

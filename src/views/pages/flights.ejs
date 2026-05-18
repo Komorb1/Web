@@ -21,7 +21,12 @@
   <button type="submit">Search</button>
 </form>
 
-<p><small>Showing upcoming flights sorted by departure time.</small></p>
+<p>
+  <small>
+    Showing upcoming flights sorted by departure time.
+    Times shown in <%= displayTimezone %>.
+  </small>
+</p>
 
 <% if (user && user.role === "admin") { %>
   <p><a href="/admin/flights/new">+ Create Flight (Admin)</a></p>
@@ -47,8 +52,8 @@
         <% flights.forEach(f => { %>
           <tr>
             <td><%= f.origin %> → <%= f.destination %></td>
-            <td><%= f.departure_time %></td>
-            <td><%= f.arrival_time %></td>
+            <td><%= f.departure_time_display %></td>
+            <td><%= f.arrival_time_display %></td>
             <td><%= f.available_seats %>/<%= f.total_seats %></td>
             <td><%= f.price %></td>
 

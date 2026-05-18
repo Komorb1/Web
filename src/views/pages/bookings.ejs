@@ -24,11 +24,11 @@
         <% bookings.forEach(b => { %>
           <tr>
             <td><%= b.origin %> → <%= b.destination %></td>
-            <td><%= b.departure_time %></td>
-            <td><%= b.arrival_time %></td>
+            <td><%= b.departure_time_display %></td>
+            <td><%= b.arrival_time_display %></td>
             <td><%= b.price %></td>
             <td><%= b.status %></td>
-            <td><%= b.booking_created_at %></td>
+            <td><%= b.booking_created_at_display %></td>
 
             <td>
               <% if (b.status === "confirmed") { %>

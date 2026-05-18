@@ -1,4 +1,6 @@
 import { createFlight, listFlights } from "../models/flight.model.js";
+import { formatDateTime, displayTimezone } from "../utils/time.js";
+import { createAuditLog } from "../models/auditLog.model.js";
 
 export function showFlights(req, res) {
   const { origin = "", destination = "", date = "" } = req.query;
@@ -7,16 +9,22 @@ export function showFlights(req, res) {
     origin,
     destination,
     date,
-    futureOnly: true, // optional requirement: enable it
+    futureOnly: true,
   });
+
+  const formattedFlights = flights.map((flight) => ({
+    ...flight,
+    departure_time_display: formatDateTime(flight.departure_time),
+    arrival_time_display: formatDateTime(flight.arrival_time),
+  }));
 
   res.render("pages/flights", {
     title: "Flights",
-    flights,
+    flights: formattedFlights,
     filters: { origin, destination, date },
+    displayTimezone,
   });
 }
-
 
 export function showNewFlightForm(req, res) {
   res.render("pages/admin/new-flight", {
@@ -45,6 +53,19 @@ export function createNewFlight(req, res) {
       arrival_time,
       price,
       total_seats,
+    });
+
+    createAuditLog({
+      user_id: req.session.user.id,
+      action: "flight_created",
+      metadata: {
+        origin,
+        destination,
+        departure_time,
+        arrival_time,
+        price,
+        total_seats,
+      },
     });
 
     req.flash("success", "Flight created successfully.");

@@ -11,3 +11,10 @@ export function createUser({ full_name, email, password_hash, role = "user" }) {
     [full_name, email, password_hash, role]
   );
 }
+
+export function makeUserAdminByEmail(email) {
+  return run(
+    "UPDATE users SET role = 'admin' WHERE email = ?",
+    [email]
+  );
+}

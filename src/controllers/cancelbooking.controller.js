@@ -1,4 +1,5 @@
 import { cancelBooking } from "../models/booking.model.js";
+import { createAuditLog } from "../models/auditLog.model.js";
 
 export function cancelMyBooking(req, res) {
   const booking_id = req.validated?.params?.id ?? Number(req.params.id);
@@ -21,6 +22,14 @@ export function cancelMyBooking(req, res) {
 
     return res.redirect("/bookings");
   }
+
+  createAuditLog({
+    user_id,
+    action: "booking_cancelled",
+    metadata: {
+      booking_id,
+    },
+  });
 
   req.flash("success", "Booking cancelled.");
   return res.redirect("/bookings");
