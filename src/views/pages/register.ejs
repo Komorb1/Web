@@ -1,38 +1,46 @@
 <%- include("../partials/header", { title }) %>
 
-<h1>Register</h1>
-
-<% if (errors && errors.length) { %>
-  <div class="error-box">
-    <ul>
-      <% errors.forEach(e => { %>
-        <li><%= e %></li>
-      <% }) %>
-    </ul>
+<section class="auth-layout">
+  <div class="auth-copy">
+    <p class="eyebrow">Create Account</p>
+    <h1>Register</h1>
+    <p>Create your account to book flights and manage your reservations.</p>
   </div>
-<% } %>
 
-<form method="POST" action="/register" class="form">
-  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div>
+    <% if (errors && errors.length) { %>
+      <div class="error-box">
+        <ul>
+          <% errors.forEach(e => { %>
+            <li><%= e %></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
 
-  <label>
-    Full Name
-    <input type="text" name="full_name" value="<%= form.full_name %>" required />
-  </label>
+    <form method="POST" action="/register" class="form auth-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-  <label>
-    Email
-    <input type="email" name="email" value="<%= form.email %>" required />
-  </label>
+      <label>
+        Full Name
+        <input type="text" name="full_name" value="<%= form.full_name %>" required />
+      </label>
 
-  <label>
-    Password
-    <input type="password" name="password" required />
-  </label>
+      <label>
+        Email
+        <input type="email" name="email" value="<%= form.email %>" required />
+      </label>
 
-  <button type="submit">Create Account</button>
-</form>
+      <label>
+        Password
+        <input type="password" name="password" required />
+      </label>
 
-<p>Already have an account? <a href="/login">Login</a></p>
+      <button type="submit">Create Account</button>
+    </form>
+
+    <p class="auth-link">Already have an account? <a href="/login">Login</a></p>
+  </div>
+</section>
 
 <%- include("../partials/footer") %>

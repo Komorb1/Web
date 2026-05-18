@@ -1,7 +1,31 @@
 <%- include("../partials/header", { title }) %>
 
-<h1>Dashboard</h1>
-<p>Welcome, <strong><%= user.full_name %></strong> ✅</p>
-<p>Your role: <%= user.role %></p>
+<section class="page-head">
+  <p class="eyebrow">Account Overview</p>
+  <h1>Dashboard</h1>
+  <p>Welcome back, <strong><%= user.full_name %></strong>. Manage your flight activity from here.</p>
+</section>
+
+<div class="dashboard-grid">
+  <div class="info-card">
+    <span class="info-icon">👤</span>
+    <h3>Account</h3>
+    <p>Your current role is <strong><%= user.role %></strong>.</p>
+  </div>
+
+  <div class="info-card">
+    <span class="info-icon">🎫</span>
+    <h3>Bookings</h3>
+    <p>View your reserved flights and cancellation options.</p>
+    <a class="btn-secondary" href="/bookings">My Bookings</a>
+  </div>
+
+  <div class="info-card">
+    <span class="info-icon">✈️</span>
+    <h3>Flights</h3>
+    <p>Search upcoming flights and reserve available seats.</p>
+    <a class="btn-primary" href="/flights">Browse Flights</a>
+  </div>
+</div>
 
 <%- include("../partials/footer") %>

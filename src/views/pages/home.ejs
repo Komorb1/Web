@@ -1,6 +1,64 @@
 <%- include("../partials/header", { title }) %>
 
-<h1>Airline Ticket Reservation</h1>
-<p>MVC skeleton is running. Next stop: database + auth.</p>
+<section class="hero">
+  <div class="hero-content">
+    <p class="eyebrow">Airline Reservation System</p>
+    <h1>Book your next flight with confidence.</h1>
+    <p>
+      Search available flights, reserve seats, and manage your bookings from one simple web application.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn-primary" href="/flights">Browse Flights</a>
+
+      <% if (!user) { %>
+        <a class="btn-secondary" href="/register">Create Account</a>
+      <% } else { %>
+        <a class="btn-secondary" href="/bookings">My Bookings</a>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="hero-card">
+    <div class="plane-icon">✈️</div>
+    <h2>Fast reservations</h2>
+    <p>Find routes, check seat availability, and book flights in a few clicks.</p>
+
+    <div class="mini-stats">
+      <div>
+        <strong>24/7</strong>
+        <span>Access</span>
+      </div>
+      <div>
+        <strong>Live</strong>
+        <span>Seats</span>
+      </div>
+      <div>
+        <strong>Secure</strong>
+        <span>Login</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="feature-grid">
+  <div class="feature-card">
+    <span>🔎</span>
+    <h3>Search Flights</h3>
+    <p>Filter upcoming flights by origin, destination, and departure date.</p>
+  </div>
+
+  <div class="feature-card">
+    <span>🎫</span>
+    <h3>Reserve Seats</h3>
+    <p>Book available flights safely with seat availability checks.</p>
+  </div>
+
+  <div class="feature-card">
+    <span>🧾</span>
+    <h3>Manage Bookings</h3>
+    <p>View your reservations and cancel eligible bookings.</p>
+  </div>
+</section>
 
 <%- include("../partials/footer") %>

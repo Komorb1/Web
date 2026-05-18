@@ -1,33 +1,41 @@
 <%- include("../partials/header", { title }) %>
 
-<h1>Login</h1>
-
-<% if (errors && errors.length) { %>
-  <div class="error-box">
-    <ul>
-      <% errors.forEach(e => { %>
-        <li><%= e %></li>
-      <% }) %>
-    </ul>
+<section class="auth-layout">
+  <div class="auth-copy">
+    <p class="eyebrow">Welcome Back</p>
+    <h1>Login</h1>
+    <p>Access your dashboard, manage bookings, and continue your flight reservation.</p>
   </div>
-<% } %>
 
-<form method="POST" action="/login" class="form">
-  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div>
+    <% if (errors && errors.length) { %>
+      <div class="error-box">
+        <ul>
+          <% errors.forEach(e => { %>
+            <li><%= e %></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
 
-  <label>
-    Email
-    <input type="email" name="email" value="<%= form.email %>" required />
-  </label>
+    <form method="POST" action="/login" class="form auth-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-  <label>
-    Password
-    <input type="password" name="password" required />
-  </label>
+      <label>
+        Email
+        <input type="email" name="email" value="<%= form.email %>" required />
+      </label>
 
-  <button type="submit">Login</button>
-</form>
+      <label>
+        Password
+        <input type="password" name="password" required />
+      </label>
 
-<p>No account? <a href="/register">Register</a></p>
+      <button type="submit">Login</button>
+    </form>
+
+    <p class="auth-link">No account? <a href="/register">Register</a></p>
+  </div>
+</section>
 
 <%- include("../partials/footer") %>

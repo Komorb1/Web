@@ -1,8 +1,12 @@
 <%- include("../partials/header", { title }) %>
 
-<h1>Flights</h1>
+<section class="page-head">
+  <p class="eyebrow">Search Flights</p>
+  <h1>Find your trip</h1>
+  <p>Choose your route and departure date to view available upcoming flights.</p>
+</section>
 
-<form method="GET" action="/flights" class="form">
+<form method="GET" action="/flights" class="form flight-search">
   <label>
     Origin
     <input type="text" name="origin" value="<%= filters.origin %>"/>
@@ -21,11 +25,8 @@
   <button type="submit">Search</button>
 </form>
 
-<p>
-  <small>
-    Showing upcoming flights sorted by departure time.
-    Times shown in <%= displayTimezone %>.
-  </small>
+<p class="helper-text">
+  Showing upcoming flights sorted by departure time. Times shown in <%= displayTimezone %>.
 </p>
 
 <% if (user && user.role === "admin") { %>
