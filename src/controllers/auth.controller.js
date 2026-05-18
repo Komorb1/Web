@@ -31,7 +31,6 @@ export function loginUser(req, res) {
   }
 
   const redirectTo = req.session.returnTo || "/dashboard";
-  return res.redirect(redirectTo);
 
   // Regenerate session on login (session fixation protection)
   req.session.regenerate((err) => {
@@ -58,7 +57,7 @@ export function loginUser(req, res) {
         });
       }
 
-      return res.redirect("/dashboard");
+      return res.redirect(redirectTo);
     });
   });
 }
