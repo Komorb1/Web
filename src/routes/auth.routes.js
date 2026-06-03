@@ -6,6 +6,7 @@ import {
   registerUser,
   logoutUser,
 } from "../controllers/auth.controller.js";
+import { authLimiter, registerLimiter } from "../middleware/rateLimit.middleware.js";
 
 import { validateBody } from "../middleware/validate.middleware.js";
 import { loginSchema, registerSchema } from "../validation/schemas.js";
@@ -15,6 +16,7 @@ const router = Router();
 router.get("/login", showLogin);
 router.post(
   "/login",
+  authLimiter,
   validateBody(loginSchema, {
     view: "pages/login",
     title: "Login",
@@ -26,6 +28,7 @@ router.post(
 router.get("/register", showRegister);
 router.post(
   "/register",
+  registerLimiter,
   validateBody(registerSchema, {
     view: "pages/register",
     title: "Register",
