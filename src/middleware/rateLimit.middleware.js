@@ -7,7 +7,7 @@ function envInt(name, fallback) {
 }
 
 export const authLimiter = rateLimit({
-  windowMs: envInt("AUTH_RATE_LIMIT_WINDOW_MS", 15 * 60 * 1000), // 15 min
+  windowMs: envInt("AUTH_RATE_LIMIT_WINDOW_MS", 60000), // 1 min
   max: envInt("AUTH_RATE_LIMIT_MAX", 5), // 5 attempts per window per IP
   standardHeaders: true,
   legacyHeaders: false,
